@@ -36,11 +36,13 @@ export class EventService {
   }
 
 
-  public getPaginatedEvents(pageNumber: number, limit: number): Observable<any> {
+  public getPaginatedEvents(pageNumber: number, limit: number, sortBy = 'title', sortOrder = 'asc'): Observable<any> {
     return this.http.get(`${environment.apiUrl}/all-events`, {
       params: {
         pageNumber,
-        limit
+        limit,
+        sortBy,
+        sortOrder,
       }
     });
   }

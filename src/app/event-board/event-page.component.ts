@@ -11,7 +11,7 @@ import { ViewParticipantsModalComponent } from './view-participant-modal/view-pa
 @Component({
   selector: 'event-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgIf, PaginationComponent],
+  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule],
   templateUrl: './event-page.component.html',
   styleUrls: ['./event-page.component.scss']
 })
@@ -23,9 +23,19 @@ export class EventPageComponent {
  public totalItems: number = 0;
  public totalPages: number = 0;
 
+ public sortOrder: string = 'asc';
+ public sortBy: string = 'title';
+
   public eventService = inject(EventService);
   public store = inject(StoreService);
   private modalService = inject(NgbModal);
+
+  public sortOptions = [
+    { key: 'title', order: 'asc', label: 'title Ascending' },
+    { key: 'title', order: 'desc', label: 'title Descending' },
+    { key: 'eventDate', order: 'asc', label: 'eventDate Ascending' },
+    { key: 'eventDate', order: 'desc', label: 'eventDate Descending' }
+  ];
 
   public defaultModalOptions = {
     centered: true,
@@ -36,12 +46,9 @@ export class EventPageComponent {
     this.fetchData();
   }
 
-  showApiData() {
-  }
-
   private fetchData(): void {
     this.store.setIsLoading(true);
-    this.eventService.getPaginatedEvents(this.currentPage, this.itemsPerPage).subscribe(
+    this.eventService.getPaginatedEvents(this.currentPage, this.itemsPerPage, this.sortBy, this.sortOrder).subscribe(
       (response) => {
         this.store.storedEvents(response);
         this.totalItems = response.data.totalEvents;
@@ -60,6 +67,11 @@ export class EventPageComponent {
     this.fetchData();
   }
 
+  public sort(sortBy: string, sortOrder: string) {
+    this.sortBy = sortBy;
+    this.sortOrder = sortOrder;
+    this.fetchData();
+  }
 
   public openEvenModalRegistration(event: any) {
     const modalRef = this.modalService.open(CheckUpModalComponent, {
@@ -74,6 +86,7 @@ export class EventPageComponent {
         name: receivedEntry.fullName,
         email: receivedEntry.email,
         dateOfBirthday: receivedEntry.dateOfBirthday,
+        foundUsBy: receivedEntry.foundUsBy,
       }
 
       const eventId = receivedEntry.eventId;

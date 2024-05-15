@@ -1,24 +1,29 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
-  <app-pagination
-    *ngIf="totalItems"
-    class="mt-4"
-    [currentPage]="currentPage"
-    [itemsPerPage]="itemsPerPage"
-    [totalItems]="totalItems"
-    [totalPages]="totalPages"
-    (pageChanged)="onPageChange($event)"
-  ></app-pagination>
+  <div class="col mt-2">
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-primary px-3" id="dropdownBasic1" ngbDropdownToggle>
+        Sort by
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button
+          *ngFor="let option of sortOptions"
+          class="dropdown-item"
+          (click)="sort(option.key, option.order)"
+        >
+          Sorting by '{{ option.label }}' {{ option.order }}
+        </button>
+      </div>
+    </div>
+  </div>
+  
 
-  <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-5">
+  <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 mt-3">
     @for (event of store.getEvents().data?.data; track event.id; let index =
     $index, first = $first, last = $last, even = $even, odd = $odd, count =
     $count) {
     <div class="event_post p-3">
       <div class="img_pod">
-        <img
-          src="../../assets/star1.png"
-          alt="random image"
-        />
+        <img src="../../assets/star1.png" alt="random image" />
       </div>
       <div class="container_copy d-flex flex-column justify-content-between">
         <div class="d-flex flex-column">
@@ -30,8 +35,22 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <button (click)="openEvenModalRegistration(event)" class="btn_primary" href="#" target="_blank">register</button>
-          <button  (click)="openViewParticipantsModal(event)" class="btn_primary" href="#" target="_blank">view</button>
+          <button
+            (click)="openEvenModalRegistration(event)"
+            class="btn_primary"
+            href="#"
+            target="_blank"
+          >
+            register
+          </button>
+          <button
+            (click)="openViewParticipantsModal(event)"
+            class="btn_primary"
+            href="#"
+            target="_blank"
+          >
+            view
+          </button>
         </div>
       </div>
     </div>
@@ -40,3 +59,13 @@
     }
   </div>
 </div>
+
+<app-pagination
+  *ngIf="totalItems"
+  class="mt-4 d-flex justify-content-center"
+  [currentPage]="currentPage"
+  [itemsPerPage]="itemsPerPage"
+  [totalItems]="totalItems"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)"
+></app-pagination>

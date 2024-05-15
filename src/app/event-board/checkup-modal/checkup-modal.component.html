@@ -39,6 +39,25 @@
       />
     </div>
 
+    <div class="radio-option-block d-flex justify-content-between mt-3">
+      <ng-container
+        *ngFor="let option of radioOptions; let i = index"
+        class="form-check"
+      >
+        <input
+          class="form-check-input"
+          type="radio"
+          name="flexRadioDefault"
+          [id]="'flexRadioDefault' + i"
+          [value]="option.value"
+          (change)="selectedOption = option.value"
+        />
+        <label class="form-check-label" [for]="'flexRadioDefault' + i">
+          {{ option.label }}
+        </label>
+      </ng-container>
+    </div>
+
     <div class="d-flex justify-content-center my-4 w-100-p column-gap-3">
       <div class="full-width">
         <button

@@ -20,6 +20,13 @@ export class CheckUpModalComponent {
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   @Output() getQrCode: EventEmitter<any> = new EventEmitter();
 
+  radioOptions = [
+    { label: 'Social media', value: '1' },
+    { label: 'Friends', value: '2' },
+    { label: 'Found myself', value: '3' }
+  ];
+  
+  selectedOption: string = '';
   maxBirthDate!: string;
 
   public registrationEventForm: UntypedFormGroup = this.fb.group({
@@ -39,8 +46,10 @@ export class CheckUpModalComponent {
     
     const result = {
       ...data,
-      eventId: this.data._id
+      eventId: this.data._id,
+      foundUsBy: this.selectedOption 
     }
+
     this.passEntry.emit(result);
   }
 

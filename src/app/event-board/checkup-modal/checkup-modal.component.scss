@@ -1,4 +1,4 @@
-input {
+input:not(.form-check-input) {
   border-radius: 10px;
   height: 45px;
   text-indent: 10px;
@@ -16,7 +16,7 @@ button.action-button.reject {
 }
 
 button.action-button.submit {
-  background-color: #40c640;;
+  background-color: #40c640;
 }
 
 button.action-button:disabled {
@@ -26,4 +26,8 @@ button.action-button:disabled {
 
 .birthday-block {
   width: 50%;
+}
+
+.radio-option-block {
+  width: 80%;
 }

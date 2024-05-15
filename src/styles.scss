@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap";
 
+event-board {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 200px);
+  justify-content: space-between;
+}
+
 .full {
   &-width {
     width: 100%;
