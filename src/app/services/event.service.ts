@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StoreService } from './store';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { ToastService } from '../shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ import { Observable } from 'rxjs';
 export class EventService {
 
   store = inject(StoreService);
+  toastService = inject(ToastService);
 
   constructor(
     private http: HttpClient,
@@ -35,21 +37,23 @@ export class EventService {
 
 
   public getPaginatedEvents(pageNumber: number, limit: number): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/all-events`, { params :{
-      pageNumber,
-      limit
-    } });
+    return this.http.get(`${environment.apiUrl}/all-events`, {
+      params: {
+        pageNumber,
+        limit
+      }
+    });
   }
 
   public registerParticipantOnEvent(participantData: any, eventId: string) {
     const requestBody = { ...participantData, eventId };
     return this.http.post(`${environment.apiUrl}/register-participant`, requestBody).subscribe(
       (response) => {
-        
-        console.log('response');
+        this.toastService.show('', 'Registration is successful', 5000, 'toast-success', 'green');
         this.store.setIsLoading(false);
       },
       (error) => {
+        this.toastService.show('', error?.error?.message, 5000, 'toast-error', 'red');
         this.store.setIsLoading(false);
       }
     )

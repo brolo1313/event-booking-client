@@ -16,7 +16,7 @@
     <div class="event_post p-3">
       <div class="img_pod">
         <img
-          src="https://pbs.twimg.com/profile_images/890901007387025408/oztASP4n.jpg"
+          src="../../assets/star1.png"
           alt="random image"
         />
       </div>
@@ -25,7 +25,7 @@
           <h5>{{ event.eventDate | date : "MMM d, y" }}</h5>
           <h3>{{ event.title }}</h3>
           <p>
-            {{ event.description.substring(0, 27) + "..." }}
+            {{ event.description.substring(0, 60) + "..." }}
           </p>
         </div>
 

@@ -39,7 +39,7 @@
   }
   
   .container_copy{
-    height: 80%;
+    height: 100%;
   }
   
   .img_pod[_ngcontent-ng-c629295588] {
@@ -58,12 +58,14 @@
 }
   
   img {
-    height: 50px;
-    width: 50px;
-    position: relative;
+    height: 40px;
+    width: 40px;
+    position: absolute;
     border-radius: 100%;
     box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
     z-index: 1;
+    top: 7px;
+    right: 10px;
   }
   
   h5 {
@@ -91,7 +93,7 @@
     outline: none;
     background: linear-gradient(90deg, #ff9966, #ff5e62);
     padding: 5px 25px;
-    border-radius: 50px;
+    border-radius: 5px;
     color: white;
     font-size: 1.2rem;
     box-shadow: 1px 10px 2rem rgba(255, 94, 98, 0.5);
