@@ -29,7 +29,7 @@ export class EventPageComponent {
   public eventService = inject(EventService);
   public store = inject(StoreService);
   private modalService = inject(NgbModal);
-
+  
   public sortOptions = [
     { key: 'title', order: 'asc', label: 'title Ascending' },
     { key: 'title', order: 'desc', label: 'title Descending' },
@@ -37,11 +37,31 @@ export class EventPageComponent {
     { key: 'eventDate', order: 'desc', label: 'eventDate Descending' }
   ];
 
+  public limitOptions = [
+    { key: 4, label: '4' },
+    { key: 10, label: '10' },
+    { key: 25, label: '25' },
+  ];
+
   public defaultModalOptions = {
     centered: true,
     windowClass: 'modal-dialog-centered',
   }
   
+  getDay(event: any) {
+    return (new Date(event.eventDate)).getDate();
+  }
+
+  getMonth(event: any) {
+    const formatter = new Intl.DateTimeFormat('en-us', { month: 'short' });
+    const month1 = formatter.format(new Date(event.eventDate));
+    return month1;
+  }
+
+  getYear(event: any) {
+    return (new Date(event.eventDate)).getFullYear();
+  }
+
   ngOnInit() {
     this.fetchData();
   }
@@ -70,6 +90,11 @@ export class EventPageComponent {
   public sort(sortBy: string, sortOrder: string) {
     this.sortBy = sortBy;
     this.sortOrder = sortOrder;
+    this.fetchData();
+  }
+
+  public setLimit(limit: number): void {
+    this.itemsPerPage = limit;
     this.fetchData();
   }
 

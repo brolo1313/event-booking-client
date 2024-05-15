@@ -1,7 +1,12 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="col mt-2">
     <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-outline-primary px-3" id="dropdownBasic1" ngbDropdownToggle>
+      <button
+        type="button"
+        class="btn btn-outline-primary px-3"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
         Sort by
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -14,10 +19,39 @@
         </button>
       </div>
     </div>
-  </div>
-  
 
-  <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 mt-3">
+    <div ngbDropdown class="d-inline-block ms-3">
+      <button
+        type="button"
+        class="btn btn-outline-primary px-3"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
+        Limit
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button
+          *ngFor="let option of limitOptions"
+          class="dropdown-item"
+          (click)="setLimit(option.key)"
+        >
+          {{ option.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <app-pagination
+  *ngIf="totalItems"
+  class="mt-4 d-flex justify-content-center"
+  [currentPage]="currentPage"
+  [itemsPerPage]="itemsPerPage"
+  [totalItems]="totalItems"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)"
+></app-pagination>
+
+  <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-4">
     @for (event of store.getEvents().data?.data; track event.id; let index =
     $index, first = $first, last = $last, even = $even, odd = $odd, count =
     $count) {
@@ -27,10 +61,31 @@
       </div>
       <div class="container_copy d-flex flex-column justify-content-between">
         <div class="d-flex flex-column">
-          <h5>{{ event.eventDate | date : "MMM d, y" }}</h5>
-          <h3>{{ event.title }}</h3>
-          <p>
-            {{ event.description.substring(0, 60) + "..." }}
+          <div class="d-flex align-items-center">
+            <div class="event-list">
+              <div class="event-list--item--sheet__day">
+                <strong>{{ getDay(event) }}</strong>
+              </div>
+              <div class="event-list--item--sheet__month">
+                <strong>{{ getMonth(event) }}</strong>
+              </div>
+            </div>
+
+            <div class="event-list--item--sheet__year ms-2">
+              <strong>{{ getYear(event) }}</strong>
+            </div>
+          </div>
+
+          <h3 class="mt-2">{{ event.title }}</h3>
+          <p
+            ngbTooltip="{{
+              event.description.length > 60 ? event.description : null
+            }}"
+          >
+            <ng-container *ngIf="event.description.length > 60; else noTooltip">
+              {{ event.description.substring(0, 60) + "..." }}
+            </ng-container>
+            <ng-template #noTooltip>{{ event.description }}</ng-template>
           </p>
         </div>
 
@@ -60,12 +115,4 @@
   </div>
 </div>
 
-<app-pagination
-  *ngIf="totalItems"
-  class="mt-4 d-flex justify-content-center"
-  [currentPage]="currentPage"
-  [itemsPerPage]="itemsPerPage"
-  [totalItems]="totalItems"
-  [totalPages]="totalPages"
-  (pageChanged)="onPageChange($event)"
-></app-pagination>
+
