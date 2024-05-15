@@ -15,10 +15,11 @@ import { PaginationComponent } from '../shared/components/pagination/pagination.
 })
 export class EventPageComponent {
 
-  paginatedData!: any[];
-  currentPage: number = 1;
-  itemsPerPage: number = 4;
-  totalItems!: number;
+ public paginatedData!: any[];
+ public currentPage: number = 1;
+ public itemsPerPage: number = 4;
+ public totalItems: number = 0;
+ public totalPages: number = 0;
 
   public eventService = inject(EventService);
   public store = inject(StoreService);
@@ -35,6 +36,8 @@ export class EventPageComponent {
       (response) => {
         this.store.storedEvents(response);
         this.totalItems = response.data.totalEvents;
+        this.totalPages = response.data.totalPages;
+
         this.store.setIsLoading(false);
       },
       (error) => {
@@ -47,4 +50,5 @@ export class EventPageComponent {
     this.currentPage = page;
     this.fetchData();
   }
+
 }

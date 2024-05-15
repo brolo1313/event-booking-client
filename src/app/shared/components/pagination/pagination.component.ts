@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -12,10 +12,19 @@ export class PaginationComponent {
   @Input() currentPage!: number;
   @Input() itemsPerPage!: number;
   @Input() totalItems!: number;
+  @Input() totalPages!: number;
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
 
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.itemsPerPage);
+  pages: number[] = [];
+
+  ngOnChanges({ totalPages }: SimpleChanges) {
+    if (totalPages?.currentValue) {
+      this.generatePagesArray(totalPages.currentValue);
+    }
+  }
+
+  private generatePagesArray(totalPages: number): void {
+    this.pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
   changePage(page: number): void {
@@ -24,5 +33,4 @@ export class PaginationComponent {
       this.pageChanged.emit(page);
     }
   }
-
 }

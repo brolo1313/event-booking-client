@@ -1,10 +1,14 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
   <app-pagination
+    *ngIf="totalItems"
+    class="mt-5"
     [currentPage]="currentPage"
     [itemsPerPage]="itemsPerPage"
     [totalItems]="totalItems"
+    [totalPages]="totalPages"
     (pageChanged)="onPageChange($event)"
   ></app-pagination>
+
   <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-5">
     @for (event of store.getEvents().data?.data; track event.id; let index =
     $index, first = $first, last = $last, even = $even, odd = $odd, count =
