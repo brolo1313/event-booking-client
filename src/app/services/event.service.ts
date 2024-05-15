@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { StoreService } from './store';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,12 @@ export class EventService {
     )
   }
 
+
+  public getPaginatedEvents(pageNumber: number, limit: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/all-events`, { params :{
+      pageNumber,
+      limit
+    } });
+  }
 
 }
