@@ -14,13 +14,8 @@ export class EventService {
 
   store = inject(StoreService);
   toastService = inject(ToastService);
-
-  constructor(
-    private http: HttpClient,
-    private route: ActivatedRoute,
-  ) { }
-
-
+  http = inject(HttpClient);
+  route = inject(ActivatedRoute)
 
   public getEvents() {
     this.store.setIsLoading(true);
@@ -35,8 +30,16 @@ export class EventService {
     )
   }
 
+  public getRegisteredToDay(eventId:string){
+    return this.http.get(`${environment.apiUrl}/registered-to-day`, {
+      params: {
+        eventId,
+      }
+    });
+  }
 
-  public getPaginatedEvents(pageNumber: number, limit: number, sortBy = 'title', sortOrder = 'asc'): Observable<any> {
+
+  public getPaginatedEvents(pageNumber: number = 1, limit: number = 4, sortBy = 'title', sortOrder = 'asc'): Observable<any> {
     return this.http.get(`${environment.apiUrl}/all-events`, {
       params: {
         pageNumber,
@@ -53,6 +56,7 @@ export class EventService {
       (response) => {
         this.toastService.show('', 'Registration is successful', 5000, 'toast-success', 'green');
         this.store.setIsLoading(false);
+        this.getEvents();
       },
       (error) => {
         this.toastService.show('', error?.error?.message, 5000, 'toast-error', 'red');

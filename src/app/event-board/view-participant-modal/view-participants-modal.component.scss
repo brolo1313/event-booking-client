@@ -5,10 +5,23 @@ input {
   border: 1px solid #f8b218;
 }
 
-.participant-wrapper{
+input:disabled{
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.participant-wrapper {
   min-height: 300px;
   height: 300px;
- 
+
   overflow: auto;
   scrollbar-width: thin;
+}
+
+.count-registered {
+  border: 1px solid green;
+  border-radius: 5px;
+  padding: 0 9px;
+  margin-bottom: 10px;
+  width: 200px;
 }

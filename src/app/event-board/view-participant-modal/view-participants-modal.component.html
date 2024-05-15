@@ -1,4 +1,4 @@
-<div class="d-flex flex-column align-items-center justify-content-center px-3">
+<div class="d-flex flex-column px-3">
   <div class="d-flex justify-content-between full-width mt-4">
     <div ngbAutofocus>
       <h5>Participants of {{ event.title }}</h5>
@@ -15,7 +15,20 @@
     </div>
   </div>
 
+  <div *ngIf="countOfRegisteredParticipants > 0" class="count-registered">
+    <span>
+      <small>Have already joined today</small>
+      <strong
+        ><span class="text-success ms-2">{{
+          countOfRegisteredParticipants
+        }}</span></strong
+      ></span
+    >
+  </div>
+
   <input
+    #search
+    [disabled]="!event?.participants.length"
     class="full-width"
     type="text"
     placeholder="Search by name or email"
@@ -33,8 +46,16 @@
       </div>
     </div>
     }@empty {
-    <span class="full-height d-flex justify-content-center align-items-center"
-      >nobody register yet</span
+    <span
+      *ngIf="!filteredParticipants?.length && !search.value"
+      class="full-height d-flex justify-content-center align-items-center"
+      >Nobody has registered yet.</span
+    >
+
+    <span
+      *ngIf="!filteredParticipants?.length && search.value"
+      class="full-height d-flex justify-content-center align-items-center"
+      >No participants found.</span
     >
     }
   </div>
