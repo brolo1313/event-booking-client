@@ -32,6 +32,7 @@
     <div class="birthday-block d-flex flex-column mt-2">
       <label> Birthday </label>
       <input
+        class="pe-3"
         type="date"
         [max]="maxBirthDate"
         formControlName="dateOfBirthday"
@@ -42,7 +43,7 @@
       <div class="full-width">
         <button
           (click)="activeModal.dismiss('dismiss')"
-          class="action-button border-radius-20 border-0 bg-light-grey full-width"
+          class="action-button reject border-radius-20 border-0 bg-light-grey full-width"
         >
           <strong>Reject</strong>
         </button>
@@ -50,7 +51,7 @@
 
       <div class="full-width">
         <button
-          class="action-button border-radius-20 border-0 bg-general full-width"
+          class="action-button submit border-radius-20 border-0 bg-general full-width"
           type="submit"
           [disabled]="registrationEventForm.invalid"
           (click)="submit(registrationEventForm)"

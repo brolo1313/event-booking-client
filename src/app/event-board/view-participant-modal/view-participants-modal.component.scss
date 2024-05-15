@@ -1,0 +1,14 @@
+input {
+  border-radius: 10px;
+  height: 45px;
+  text-indent: 10px;
+  border: 1px solid #f8b218;
+}
+
+.participant-wrapper{
+  min-height: 300px;
+  height: 300px;
+ 
+  overflow: auto;
+  scrollbar-width: thin;
+}

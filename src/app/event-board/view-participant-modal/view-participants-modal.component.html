@@ -1,0 +1,41 @@
+<div class="d-flex flex-column align-items-center justify-content-center px-3">
+  <div class="d-flex justify-content-between full-width mt-4">
+    <div ngbAutofocus>
+      <h5>Participants of {{ event.title }}</h5>
+    </div>
+    <div>
+      <button
+        type="button"
+        class="btn-close"
+        aria-describedby="modal-title"
+        aria-label="Close"
+        style="outline: none"
+        (click)="activeModal.dismiss('Cross click')"
+      ></button>
+    </div>
+  </div>
+
+  <input
+    class="full-width"
+    type="text"
+    placeholder="Search by name or email"
+    (keyup)="applyFilter($event)"
+  />
+
+  <div class="participant-wrapper full-width mt-2">
+    @for (participant of filteredParticipants; track $index) {
+    <div
+      class="list-group-item full-width d-flex justify-content-between align-items-start mb-2"
+    >
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{ participant?.name }}</div>
+        <span>{{ participant?.email }}</span>
+      </div>
+    </div>
+    }@empty {
+    <span class="full-height d-flex justify-content-center align-items-center"
+      >nobody register yet</span
+    >
+    }
+  </div>
+</div>

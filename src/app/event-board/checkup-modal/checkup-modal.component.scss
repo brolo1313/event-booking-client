@@ -7,9 +7,19 @@ input {
 
 button.action-button {
   height: 45px;
+  color: white;
+  border-radius: 5px;
 }
 
-.disable-link {
+button.action-button.reject {
+  background-color: #ff6b6b;
+}
+
+button.action-button.submit {
+  background-color: #40c640;;
+}
+
+button.action-button:disabled {
   pointer-events: none;
   opacity: 0.4;
 }
