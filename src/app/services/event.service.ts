@@ -41,4 +41,18 @@ export class EventService {
     } });
   }
 
+  public registerParticipantOnEvent(participantData: any, eventId: string) {
+    const requestBody = { ...participantData, eventId };
+    return this.http.post(`${environment.apiUrl}/register-participant`, requestBody).subscribe(
+      (response) => {
+        
+        console.log('response');
+        this.store.setIsLoading(false);
+      },
+      (error) => {
+        this.store.setIsLoading(false);
+      }
+    )
+  }
+
 }

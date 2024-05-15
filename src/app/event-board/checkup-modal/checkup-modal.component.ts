@@ -23,8 +23,8 @@ export class CheckUpModalComponent {
   maxBirthDate!: string;
 
   public registrationEventForm: UntypedFormGroup = this.fb.group({
-    fullName: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
+    fullName: ['User1', Validators.required],
+    email: ['brolo1341@gmail.com', [Validators.required, Validators.email]],
     dateOfBirthday: [new Date().toISOString().split('T')[0]],
   });
 
@@ -36,8 +36,12 @@ export class CheckUpModalComponent {
   public submit(registrationEventForm: any) {
     const data = registrationEventForm.getRawValue();
     this.activeModal.close('success');
-  
-    this.passEntry.emit(data);
+    
+    const result = {
+      ...data,
+      eventId: this.data._id
+    }
+    this.passEntry.emit(result);
   }
 
 }

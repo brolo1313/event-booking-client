@@ -69,15 +69,14 @@ export class EventPageComponent {
     modalRef.componentInstance.data = event;
 
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
-      const result = {
-        fullName: receivedEntry.fullName,
+      const data = {
+        name: receivedEntry.fullName,
         email: receivedEntry.email,
         dateOfBirthday: receivedEntry.dateOfBirthday,
-        enabled: true,
       }
 
-
-      console.log('request for api',  result);
+      const eventId = receivedEntry.eventId;
+      this.eventService.registerParticipantOnEvent(data, eventId)
     })
   }
 }
