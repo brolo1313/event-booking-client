@@ -1,0 +1,63 @@
+<div class="d-flex flex-column align-items-center justify-content-center px-3">
+  <div class="d-flex justify-content-between full-width mt-4">
+    <div ngbAutofocus>
+      <h5>Registration on {{ this.data.title }}</h5>
+    </div>
+    <div>
+      <button
+        type="button"
+        class="btn-close"
+        aria-describedby="modal-title"
+        aria-label="Close"
+        style="outline: none"
+        (click)="activeModal.dismiss('Cross click')"
+      ></button>
+    </div>
+  </div>
+  <form [formGroup]="registrationEventForm" class="mx-2 full-width">
+    <div class="d-flex flex-column mt-2">
+      <label>Full Name</label>
+      <input type="text" formControlName="fullName" />
+    </div>
+
+    <div class="d-flex flex-column mt-2">
+      <label>Email</label>
+      <input
+        type="text"
+        formControlName="email"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+      />
+    </div>
+
+    <div class="birthday-block d-flex flex-column mt-2">
+      <label> Birthday </label>
+      <input
+        type="date"
+        [max]="maxBirthDate"
+        formControlName="dateOfBirthday"
+      />
+    </div>
+
+    <div class="d-flex justify-content-center my-4 w-100-p column-gap-3">
+      <div class="full-width">
+        <button
+          (click)="activeModal.dismiss('dismiss')"
+          class="action-button border-radius-20 border-0 bg-light-grey full-width"
+        >
+          <strong>Reject</strong>
+        </button>
+      </div>
+
+      <div class="full-width">
+        <button
+          class="action-button border-radius-20 border-0 bg-general full-width"
+          type="submit"
+          [disabled]="registrationEventForm.invalid"
+          (click)="submit(registrationEventForm)"
+        >
+          <strong>Submit</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

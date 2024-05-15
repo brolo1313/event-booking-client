@@ -3,8 +3,9 @@ import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { StoreService } from '../services/store';
-import { NgbModule, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
+import { CheckUpModalComponent } from './checkup-modal/checkup-modal.component';
 
 @Component({
   selector: 'event-board',
@@ -23,6 +24,13 @@ export class EventPageComponent {
 
   public eventService = inject(EventService);
   public store = inject(StoreService);
+  private modalService = inject(NgbModal);
+
+  public defaultModalOptions = {
+    centered: true,
+    windowClass: 'modal-dialog-centered',
+  }
+  
   ngOnInit() {
     this.fetchData();
   }
@@ -51,4 +59,25 @@ export class EventPageComponent {
     this.fetchData();
   }
 
+
+  public openEvenModalRegistration(event: any) {
+    const modalRef = this.modalService.open(CheckUpModalComponent, {
+      ...this.defaultModalOptions,
+    });
+
+    // Pass data to the modal
+    modalRef.componentInstance.data = event;
+
+    modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
+      const result = {
+        fullName: receivedEntry.fullName,
+        email: receivedEntry.email,
+        dateOfBirthday: receivedEntry.dateOfBirthday,
+        enabled: true,
+      }
+
+
+      console.log('request for api',  result);
+    })
+  }
 }

@@ -1,0 +1,19 @@
+input {
+  border-radius: 10px;
+  height: 45px;
+  text-indent: 10px;
+  border: 1px solid #f8b218;
+}
+
+button.action-button {
+  height: 45px;
+}
+
+.disable-link {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.birthday-block {
+  width: 50%;
+}
