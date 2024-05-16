@@ -24,13 +24,20 @@
       </ng-container>
     </div>
 
-    <div *ngIf="totalItems" class="d-flex justify-content-center column-gap-2 mt-2">
+    <div
+      *ngIf="totalItems"
+      class="d-flex justify-content-center column-gap-2 mt-2"
+    >
       <ng-container *ngFor="let option of limitOptions">
         <button
           [class.active]="itemsPerPage === option?.key"
           class="limit_items"
           (click)="setLimit(option.key)"
-          [disabled]="!store.getEvents().length || store.getIsLoading() || (itemsPerPage === option?.key)"
+          [disabled]="
+            !store.getEvents().length ||
+            store.getIsLoading() ||
+            itemsPerPage === option?.key
+          "
         >
           <span>{{ option.label }}</span>
         </button>
@@ -39,7 +46,7 @@
 
     <app-pagination
       *ngIf="totalItems"
-      class="mt-3 d-flex justify-content-center"
+      class="mt-3 mb-2 d-flex justify-content-center"
       [currentPage]="currentPage"
       [itemsPerPage]="itemsPerPage"
       [totalItems]="totalItems"
@@ -91,6 +98,7 @@
             class="btn_primary"
             href="#"
             target="_blank"
+            [disabled]="store.getIsLoading()"
           >
             register
           </button>
@@ -99,6 +107,7 @@
             class="btn_primary"
             href="#"
             target="_blank"
+            [disabled]="store.getIsLoading()"
           >
             view
           </button>
@@ -106,7 +115,7 @@
       </div>
     </div>
     } @empty {
-    <span *ngIf="!store.getIsLoading();">Task list is empty</span>
+    <span *ngIf="!store.getIsLoading()">Task list is empty</span>
     }
   </div>
 </div>

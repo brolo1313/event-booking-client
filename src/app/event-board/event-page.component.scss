@@ -127,15 +127,12 @@ p {
 }
 
 .sticky_block {
-  // width: 100%;
+  width: 315px;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1000;
-  // background-color: #f9f3f3;
-  padding: 10px 0px;
 
-  /* From https://css.glass */
   background: rgba(193, 192, 192, 0.62);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(7.2px);
