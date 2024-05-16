@@ -9,11 +9,12 @@ import { CheckUpModalComponent } from './checkup-modal/checkup-modal.component';
 import { ViewParticipantsModalComponent } from './view-participant-modal/view-participants-modal.component';
 import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
 import { IEventData, IParticipant } from './models/event.models';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
 
 @Component({
   selector: 'event-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule],
+  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule, LoaderComponent],
   templateUrl: './event-page.component.html',
   styleUrls: ['./event-page.component.scss']
 })

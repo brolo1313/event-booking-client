@@ -23,17 +23,25 @@ export class ViewParticipantsModalComponent {
   filteredParticipants: IParticipant[] = [];
   countOfRegisteredParticipants: number = 0;
 
+  public loadingResponse: boolean = false;
+
   ngOnInit(): void {
     this.filteredParticipants = this.event.participants;
+    this.loadingResponse = true;
     this.eventService.getRegisteredToDay(this.event._id).subscribe(
       (response) => {
         const data = response as [];
-        this.countOfRegisteredParticipants = data.length; 
+        this.countOfRegisteredParticipants = data.length;
+        this.loadingResponse = false;
+
+      },
+      (error) => {
+        this.loadingResponse = false;
       }
     )
   }
 
-  public applyFilter(event: KeyboardEvent ): void {
+  public applyFilter(event: KeyboardEvent): void {
     const value = (event.target as HTMLInputElement).value;
     this.filteredParticipants = this.event.participants.filter((participant: any) => {
       const nameMatch = participant.name.toLowerCase().includes(value.toLowerCase());

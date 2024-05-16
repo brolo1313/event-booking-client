@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ToastService } from './shared/services/toast.service';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoaderComponent } from './shared/components/loader/loader.component';
+import { StoreService } from './services/store';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NgbToastModule],
+  imports: [CommonModule, RouterOutlet, NgbToastModule,LoaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   public toastService = inject(ToastService);
+  public store = inject(StoreService);
   title = 'event-client';
 
   getIconSrc(iconColor: string): string {

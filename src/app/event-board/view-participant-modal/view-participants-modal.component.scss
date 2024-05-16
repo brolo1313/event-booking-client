@@ -25,3 +25,53 @@ input:disabled{
   margin-bottom: 10px;
   width: 200px;
 }
+
+
+
+.uniq-mb{
+  margin-bottom: 31px;
+}
+
+//loader
+
+.loader {
+  border-radius: 50%;
+  animation: bounce 0.8s ease-in-out alternate infinite;
+  animation-delay: 0.32s;
+  position: relative;
+  height: 12px;
+  width: 12px;
+  bottom: 26px;
+  left: 20px;
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: inherit;
+    box-shadow: inherit;
+    animation: inherit;
+  }
+
+  &:before {
+    left: 12px;
+    animation-delay: 0.48s;
+  }
+
+  &:after {
+    right: 12px;
+    animation-delay: 0.16s;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    box-shadow: 0 2em 0 -.2em #F05C62;
+  }
+
+  100% {
+    box-shadow: 0 1em 0 -.2em #F05C62;
+  }
+}

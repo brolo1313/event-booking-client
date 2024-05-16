@@ -1,7 +1,7 @@
 
 export const environment = {
     production: true,
-    apiUrl: 'https://node-implementation.vercel.app/api',
+    apiUrl: 'https://event-booking-server-indol.vercel.app/api',
   };
 
   

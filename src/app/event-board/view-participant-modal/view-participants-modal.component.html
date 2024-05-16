@@ -1,5 +1,5 @@
 <div class="d-flex flex-column px-3">
-  <div class="d-flex justify-content-between full-width mt-4">
+  <div class="d-flex justify-content-between full-width mt-4" [class.uniq-mb]="!loadingResponse && countOfRegisteredParticipants == 0">
     <div ngbAutofocus>
       <h5>Participants of {{ event.title }}</h5>
     </div>
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div *ngIf="countOfRegisteredParticipants > 0" class="count-registered">
+  <div *ngIf="countOfRegisteredParticipants > 0 && !loadingResponse" class="count-registered">
     <span>
       <small>Have already joined today</small>
       <strong
@@ -24,6 +24,10 @@
         }}</span></strong
       ></span
     >
+  </div>
+
+  <div class="loading-block mb-3 mt-1" *ngIf="loadingResponse">
+    <div class="loader"></div>
   </div>
 
   <input
