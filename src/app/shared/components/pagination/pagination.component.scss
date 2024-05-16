@@ -3,15 +3,16 @@
   background-color: #007bff;
   color: white;
   border-color: #007bff;
+  padding: 3px 10px;
 }
 
 .pagination button {
   margin: 0 5px;
   border-radius: 5px;
   color: black;
-  border: 1px solid black;
+  border: none;
+  padding: 3px 10px;
 }
-
 
 .pagination button:disabled {
   background-color: #cccccc;
