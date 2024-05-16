@@ -2,17 +2,15 @@
   <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
     Previous
   </button>
-  <!-- <span>Page {{ currentPage }} of {{ totalPages }}</span> -->
+
   <ng-container *ngFor="let page of pages">
-    <button (click)="changePage(page)" [class.active]="page === currentPage">
+    <button *ngIf="page !== -1" (click)="changePage(page)" [class.active]="page === currentPage">
       {{ page }}
     </button>
+    <span *ngIf="page === -1">...</span>
   </ng-container>
 
-  <button
-    (click)="changePage(currentPage + 1)"
-    [disabled]="currentPage === totalPages"
-  >
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
     Next
   </button>
 </div>

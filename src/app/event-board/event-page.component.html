@@ -1,58 +1,60 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
-  <div class="col mt-2">
-    <div ngbDropdown class="d-inline-block">
-      <button
-        type="button"
-        class="btn btn-outline-primary px-3"
-        id="dropdownBasic1"
-        ngbDropdownToggle
-      >
-        Sort by
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+  <div class="sticky_block">
+    <div class="col text-center">
+      <div ngbDropdown class="d-inline-block">
         <button
-          *ngFor="let option of sortOptions"
-          class="dropdown-item"
-          (click)="sort(option.key, option.order)"
+          type="button"
+          class="btn btn-outline-primary px-3"
+          id="dropdownBasic1"
+          ngbDropdownToggle
         >
-          Sorting by '{{ option.label }}' {{ option.order }}
+          Sort by
         </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            *ngFor="let option of sortOptions"
+            class="dropdown-item"
+            (click)="sort(option.key, option.order)"
+          >
+            Sorting by '{{ option.label }}' {{ option.order }}
+          </button>
+        </div>
+      </div>
+
+      <div ngbDropdown class="d-inline-block ms-3">
+        <button
+          type="button"
+          class="btn btn-outline-primary px-3"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Limit
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            *ngFor="let option of limitOptions"
+            class="dropdown-item"
+            (click)="setLimit(option.key)"
+          >
+            {{ option.label }}
+          </button>
+        </div>
       </div>
     </div>
 
-    <div ngbDropdown class="d-inline-block ms-3">
-      <button
-        type="button"
-        class="btn btn-outline-primary px-3"
-        id="dropdownBasic1"
-        ngbDropdownToggle
-      >
-        Limit
-      </button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button
-          *ngFor="let option of limitOptions"
-          class="dropdown-item"
-          (click)="setLimit(option.key)"
-        >
-          {{ option.label }}
-        </button>
-      </div>
-    </div>
+    <app-pagination
+      *ngIf="totalItems"
+      class="mt-4 d-flex justify-content-center"
+      [currentPage]="currentPage"
+      [itemsPerPage]="itemsPerPage"
+      [totalItems]="totalItems"
+      [totalPages]="totalPages"
+      (pageChanged)="onPageChange($event)"
+    ></app-pagination>
   </div>
 
-  <app-pagination
-  *ngIf="totalItems"
-  class="mt-4 d-flex justify-content-center"
-  [currentPage]="currentPage"
-  [itemsPerPage]="itemsPerPage"
-  [totalItems]="totalItems"
-  [totalPages]="totalPages"
-  (pageChanged)="onPageChange($event)"
-></app-pagination>
-
   <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-4">
-    @for (event of store.getEvents().data?.data; track event.id; let index =
+    @for (event of store.getEvents().data?.items; track event.id; let index =
     $index, first = $first, last = $last, even = $even, odd = $odd, count =
     $count) {
     <div class="event_post p-3">
@@ -114,5 +116,3 @@
     }
   </div>
 </div>
-
-

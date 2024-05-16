@@ -126,3 +126,14 @@
   .event-list--item--sheet__year{
     color: lightgrey;
   }
+
+
+  .sticky_block {
+    width: 100%;
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+    background-color: #eaeaea; 
+    padding: 10px 0px;
+  }

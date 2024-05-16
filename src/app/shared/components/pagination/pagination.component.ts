@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -16,21 +16,46 @@ export class PaginationComponent {
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
 
   pages: number[] = [];
+  maxPagesToShow = 7; // Maximum number of pages to show
 
-  ngOnChanges({ totalPages }: SimpleChanges) {
-    if (totalPages?.currentValue) {
-      this.generatePagesArray(totalPages.currentValue);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['totalPages']?.currentValue) {
+      this.generatePagesArray();
     }
   }
 
-  private generatePagesArray(totalPages: number): void {
-    this.pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  private generatePagesArray(): void {
+    const pages = [];
+    const half = Math.floor(this.maxPagesToShow / 2);
+    let start = Math.max(this.currentPage - half, 1);
+    let end = Math.min(this.currentPage + half, this.totalPages);
+
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) {
+        pages.push(-1); // Use -1 as a placeholder for ellipses
+      }
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < this.totalPages) {
+      if (end < this.totalPages - 1) {
+        pages.push(-1); // Use -1 as a placeholder for ellipses
+      }
+      pages.push(this.totalPages);
+    }
+
+    this.pages = pages;
   }
 
   changePage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
+    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
       this.currentPage = page;
       this.pageChanged.emit(page);
+      this.generatePagesArray();
     }
   }
 }

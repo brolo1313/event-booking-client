@@ -7,6 +7,7 @@ import { NgbModal, NgbModule, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
 import { CheckUpModalComponent } from './checkup-modal/checkup-modal.component';
 import { ViewParticipantsModalComponent } from './view-participant-modal/view-participants-modal.component';
+import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
 
 @Component({
   selector: 'event-board',
@@ -17,37 +18,27 @@ import { ViewParticipantsModalComponent } from './view-participant-modal/view-pa
 })
 export class EventPageComponent {
 
- public paginatedData!: any[];
- public currentPage: number = 1;
- public itemsPerPage: number = 4;
- public totalItems: number = 0;
- public totalPages: number = 0;
+  public paginatedData!: any[];
+  public currentPage: number = 1;
+  public itemsPerPage: number = 4;
+  public totalItems: number = 0;
+  public totalPages: number = 0;
 
- public sortOrder: string = 'asc';
- public sortBy: string = 'title';
+  public sortOrder: string = 'asc';
+  public sortBy: string = 'title';
 
   public eventService = inject(EventService);
   public store = inject(StoreService);
   private modalService = inject(NgbModal);
-  
-  public sortOptions = [
-    { key: 'title', order: 'asc', label: 'title Ascending' },
-    { key: 'title', order: 'desc', label: 'title Descending' },
-    { key: 'eventDate', order: 'asc', label: 'eventDate Ascending' },
-    { key: 'eventDate', order: 'desc', label: 'eventDate Descending' }
-  ];
 
-  public limitOptions = [
-    { key: 4, label: '4' },
-    { key: 10, label: '10' },
-    { key: 25, label: '25' },
-  ];
+  public sortOptions = SORT_OPTIONS;
+  public limitOptions = LIMIT_OPTIONS;
 
   public defaultModalOptions = {
     centered: true,
     windowClass: 'modal-dialog-centered',
   }
-  
+
   getDay(event: any) {
     return (new Date(event.eventDate)).getDate();
   }
