@@ -21,12 +21,9 @@ import { LoaderComponent } from '../shared/components/loader/loader.component';
 export class EventPageComponent {
 
   public currentPage: number = 1;
-  public itemsPerPage: number = 4;
+  public itemsPerPage: number = 10;
   public totalItems: number = 0;
   public totalPages: number = 0;
-
-  public sortOrder: string = 'asc';
-  public sortBy: string = 'title';
 
   public eventService = inject(EventService);
   public store = inject(StoreService);
@@ -34,6 +31,12 @@ export class EventPageComponent {
 
   public sortOptions = SORT_OPTIONS;
   public limitOptions = LIMIT_OPTIONS;
+
+  public activeSort: { sortBy: string; sortOrder: string } =  {
+    sortOrder: 'asc',
+    sortBy: 'title'
+  };
+
 
   public defaultModalOptions = {
     centered: true,
@@ -60,7 +63,7 @@ export class EventPageComponent {
 
   private fetchData(): void {
     this.store.setIsLoading(true);
-    this.eventService.getPaginatedEvents(this.currentPage, this.itemsPerPage, this.sortBy, this.sortOrder).subscribe(
+    this.eventService.getPaginatedEvents(this.currentPage, this.itemsPerPage, this.activeSort.sortBy, this.activeSort.sortOrder).subscribe(
       (response) => {
         this.store.storedEvents(response.data.items);
         this.totalItems = response.data.totalEvents;
@@ -80,12 +83,12 @@ export class EventPageComponent {
   }
 
   public sort(sortBy: string, sortOrder: string) {
-    this.sortBy = sortBy;
-    this.sortOrder = sortOrder;
+    this.activeSort = { sortBy, sortOrder };
     this.fetchData();
   }
 
   public setLimit(limit: number): void {
+    this.currentPage = 1;// reset to first page, due fix bug
     this.itemsPerPage = limit;
     this.fetchData();
   }

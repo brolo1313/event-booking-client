@@ -14,8 +14,32 @@
   padding: 3px 10px;
 }
 
-.pagination button:disabled {
+.pagination button:disabled:not(.active) {
   background-color: #cccccc;
-  // cursor: not-allowed;
   opacity: 0.2;
 }
+
+button.page-item:not(.active) {
+  background: #cecbcb;
+}
+
+button.page-item:not(.active):hover {
+  color: #007bff;
+}
+
+button.direction-pagination {
+  background: none;
+  i {
+    color: #007bff;
+    
+  }
+}
+
+
+button.direction-pagination:hover {
+  background-color: #007bff;
+  i {
+    color: white;
+  }
+}
+

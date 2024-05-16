@@ -40,7 +40,7 @@ export class EventService {
   }
 
 
-  public getPaginatedEvents(pageNumber: number = 1, limit: number = 4, sortBy = 'title', sortOrder = 'asc'): Observable<IApiResponse> {
+  public getPaginatedEvents(pageNumber: number = 1, limit: number = 10, sortBy = 'title', sortOrder = 'asc'): Observable<IApiResponse> {
     return this.http.get<IApiResponse>(`${environment.apiUrl}/all-events`, {
       params: {
         pageNumber,

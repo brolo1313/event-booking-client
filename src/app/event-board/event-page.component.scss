@@ -132,11 +132,42 @@ p {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #e0dddd;
+  background-color: #f9f3f3;
   padding: 10px 0px;
 }
 
-
 .btn:hover {
   color: white;
+}
+
+.sort_item,
+.limit_items {
+  border: none;
+  background: none;
+}
+
+.limit_items:not(.active):hover {
+  scale: 1.4;
+  transition: all 0.4s;
+}
+
+.limit_items {
+  @media (max-width: 400px) {
+    font-size: 18px;
+    column-gap: 20px;
+  }
+}
+
+.sort_item:hover,
+.sort_item.active,
+.limit_items.active {
+  color: #007bff;
+}
+
+div.action-button {
+  @media (max-width: 400px) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
 }

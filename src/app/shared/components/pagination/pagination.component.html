@@ -1,16 +1,32 @@
-<div class="pagination">
-  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
-    Previous
+<div class="pagination d-flex align-items-center">
+  <button
+    [disabled]="!store.getEvents().length || store.getIsLoading()"
+    class="direction-pagination"
+    (click)="changePage(currentPage - 1)"
+    [disabled]="currentPage === 1"
+  >
+    <i class="bi bi-arrow-left fsz-20"></i>
   </button>
 
   <ng-container *ngFor="let page of pages">
-    <button *ngIf="page !== -1" (click)="changePage(page)" [class.active]="page === currentPage">
+    <button
+      [disabled]="!store.getEvents().length || store.getIsLoading()"
+      class="page-item"
+      *ngIf="page !== -1"
+      (click)="changePage(page)"
+      [class.active]="page === currentPage"
+    >
       {{ page }}
     </button>
-    <span *ngIf="page === -1">...</span>
+    <span *ngIf="page === -1"><strong>|</strong></span>
   </ng-container>
 
-  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
-    Next
+  <button
+    [disabled]="!store.getEvents().length || store.getIsLoading()"
+    class="direction-pagination"
+    (click)="changePage(currentPage + 1)"
+    [disabled]="currentPage === totalPages"
+  >
+    <i class="bi bi-arrow-right fsz-20"></i>
   </button>
 </div>

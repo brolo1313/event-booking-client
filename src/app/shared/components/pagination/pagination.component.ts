@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, inject } from '@angular/core';
+import { StoreService } from '../../../services/store';
 
 @Component({
   selector: 'app-pagination',
@@ -15,8 +16,10 @@ export class PaginationComponent {
   @Input() totalPages!: number;
   @Output() pageChanged: EventEmitter<number> = new EventEmitter();
 
+  public store = inject(StoreService);
+  
   pages: number[] = [];
-  maxPagesToShow = 7; // Maximum number of pages to show
+  maxPagesToShow = 3; // Maximum number of pages to show
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['totalPages']?.currentValue) {

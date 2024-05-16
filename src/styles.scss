@@ -31,3 +31,14 @@ event-board {
 
   transform: translate(-50%, -50%);
 }
+
+
+.fsz {
+  &-20{
+    font-size: 20px;
+  }
+
+  &-25{
+    font-size: 25px;
+  }
+}
