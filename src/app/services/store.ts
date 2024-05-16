@@ -1,11 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { IApiResponse, IEventData } from '../event-board/models/event.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
 
-  public selectEventsList = signal<any>([]);
+  public selectEventsList = signal<IEventData[]>([]);
 
   private isLoading = signal<boolean>(false);
 
@@ -21,7 +22,7 @@ export class StoreService {
   }
 
 
-  storedEvents(data: any) {
+  storedEvents(data: IEventData[]) {
     this.selectEventsList.set(data);
   }
 

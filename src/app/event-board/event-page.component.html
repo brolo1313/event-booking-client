@@ -54,7 +54,7 @@
   </div>
 
   <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-4">
-    @for (event of store.getEvents().data?.items; track event.id; let index =
+    @for (event of store.getEvents(); track event._id; let index =
     $index, first = $first, last = $last, even = $even, odd = $odd, count =
     $count) {
     <div class="event_post p-3">

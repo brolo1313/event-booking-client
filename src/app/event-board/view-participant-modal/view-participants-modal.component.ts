@@ -3,6 +3,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { NgbActiveModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { EventService } from '../../services/event.service';
+import { IEventData, IParticipant } from '../models/event.models';
 
 @Component({
   selector: 'app-view-participants-modal',
@@ -17,9 +18,9 @@ export class ViewParticipantsModalComponent {
   fb = inject(UntypedFormBuilder);
   eventService = inject(EventService);
 
-  @Input() event: any;
+  @Input() event!: IEventData | any;
 
-  filteredParticipants: any[] = [];
+  filteredParticipants: IParticipant[] = [];
   countOfRegisteredParticipants: number = 0;
 
   ngOnInit(): void {
@@ -32,8 +33,8 @@ export class ViewParticipantsModalComponent {
     )
   }
 
-  public applyFilter(event: any): void {
-    const value = event.target.value;
+  public applyFilter(event: KeyboardEvent ): void {
+    const value = (event.target as HTMLInputElement).value;
     this.filteredParticipants = this.event.participants.filter((participant: any) => {
       const nameMatch = participant.name.toLowerCase().includes(value.toLowerCase());
       const emailMatch = participant.email.toLowerCase().includes(value.toLowerCase());

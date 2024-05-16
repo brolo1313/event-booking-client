@@ -6,6 +6,7 @@ import { StoreService } from './store';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { ToastService } from '../shared/services/toast.service';
+import { IApiResponse, IParticipant } from '../event-board/models/event.models';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +20,9 @@ export class EventService {
 
   public getEvents() {
     this.store.setIsLoading(true);
-    return this.http.get(`${environment.apiUrl}/all-events`).subscribe(
-      (response) => {
-        this.store.storedEvents(response)
+    return this.http.get<IApiResponse>(`${environment.apiUrl}/all-events`).subscribe(
+      (response: IApiResponse) => {
+        this.store.storedEvents(response.data.items)
         this.store.setIsLoading(false);
       },
       (error) => {
@@ -39,8 +40,8 @@ export class EventService {
   }
 
 
-  public getPaginatedEvents(pageNumber: number = 1, limit: number = 4, sortBy = 'title', sortOrder = 'asc'): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/all-events`, {
+  public getPaginatedEvents(pageNumber: number = 1, limit: number = 4, sortBy = 'title', sortOrder = 'asc'): Observable<IApiResponse> {
+    return this.http.get<IApiResponse>(`${environment.apiUrl}/all-events`, {
       params: {
         pageNumber,
         limit,
@@ -50,7 +51,7 @@ export class EventService {
     });
   }
 
-  public registerParticipantOnEvent(participantData: any, eventId: string) {
+  public registerParticipantOnEvent(participantData: IParticipant, eventId: string) {
     const requestBody = { ...participantData, eventId };
     return this.http.post(`${environment.apiUrl}/register-participant`, requestBody).subscribe(
       (response) => {

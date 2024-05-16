@@ -3,11 +3,12 @@ import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { StoreService } from '../services/store';
-import { NgbModal, NgbModule, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
 import { CheckUpModalComponent } from './checkup-modal/checkup-modal.component';
 import { ViewParticipantsModalComponent } from './view-participant-modal/view-participants-modal.component';
 import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
+import { IEventData, IParticipant } from './models/event.models';
 
 @Component({
   selector: 'event-board',
@@ -18,7 +19,6 @@ import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
 })
 export class EventPageComponent {
 
-  public paginatedData!: any[];
   public currentPage: number = 1;
   public itemsPerPage: number = 4;
   public totalItems: number = 0;
@@ -39,17 +39,17 @@ export class EventPageComponent {
     windowClass: 'modal-dialog-centered',
   }
 
-  getDay(event: any) {
+  getDay(event: IEventData) {
     return (new Date(event.eventDate)).getDate();
   }
 
-  getMonth(event: any) {
+  getMonth(event: IEventData) {
     const formatter = new Intl.DateTimeFormat('en-us', { month: 'short' });
     const month1 = formatter.format(new Date(event.eventDate));
     return month1;
   }
 
-  getYear(event: any) {
+  getYear(event: IEventData) {
     return (new Date(event.eventDate)).getFullYear();
   }
 
@@ -61,7 +61,7 @@ export class EventPageComponent {
     this.store.setIsLoading(true);
     this.eventService.getPaginatedEvents(this.currentPage, this.itemsPerPage, this.sortBy, this.sortOrder).subscribe(
       (response) => {
-        this.store.storedEvents(response);
+        this.store.storedEvents(response.data.items);
         this.totalItems = response.data.totalEvents;
         this.totalPages = response.data.totalPages;
 
@@ -89,7 +89,7 @@ export class EventPageComponent {
     this.fetchData();
   }
 
-  public openEvenModalRegistration(event: any) {
+  public openEvenModalRegistration(event: IEventData) {
     const modalRef = this.modalService.open(CheckUpModalComponent, {
       ...this.defaultModalOptions,
     });
@@ -98,7 +98,7 @@ export class EventPageComponent {
     modalRef.componentInstance.data = event;
 
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
-      const data = {
+      const data:IParticipant = {
         name: receivedEntry.fullName,
         email: receivedEntry.email,
         dateOfBirthday: receivedEntry.dateOfBirthday,
@@ -111,7 +111,7 @@ export class EventPageComponent {
   }
 
 
-  public openViewParticipantsModal(event: any) {
+  public openViewParticipantsModal(event: IEventData) {
     const modalRef = this.modalService.open(ViewParticipantsModalComponent, {
       ...this.defaultModalOptions,
     });

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { NgbActiveModal, NgbTooltip, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IEventData } from '../models/event.models';
 
 @Component({
   selector: 'app-event-checkup-modal',
@@ -15,7 +16,7 @@ export class CheckUpModalComponent {
   activeModal = inject(NgbActiveModal);
   fb = inject(UntypedFormBuilder);
   
-  @Input() data: any; 
+  @Input() data!: IEventData; 
 
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   @Output() getQrCode: EventEmitter<any> = new EventEmitter();
@@ -40,7 +41,7 @@ export class CheckUpModalComponent {
   }
 
 
-  public submit(registrationEventForm: any) {
+  public submit(registrationEventForm: UntypedFormGroup) {
     const data = registrationEventForm.getRawValue();
     this.activeModal.close('success');
     
