@@ -31,12 +31,10 @@ button.direction-pagination {
   background: none;
   i {
     color: #007bff;
-    
   }
 }
 
-
-button.direction-pagination:hover {
+button.direction-pagination:not(:disabled):hover {
   background-color: #007bff;
   i {
     color: white;

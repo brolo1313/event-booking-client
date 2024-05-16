@@ -1,9 +1,9 @@
 <div class="pagination d-flex align-items-center">
   <button
-    [disabled]="!store.getEvents().length || store.getIsLoading()"
+    [disabled]=""
     class="direction-pagination"
     (click)="changePage(currentPage - 1)"
-    [disabled]="currentPage === 1"
+    [disabled]="(currentPage === 1) || !store.getEvents().length || store.getIsLoading()"
   >
     <i class="bi bi-arrow-left fsz-20"></i>
   </button>
@@ -22,10 +22,10 @@
   </ng-container>
 
   <button
-    [disabled]="!store.getEvents().length || store.getIsLoading()"
+    [disabled]=""
     class="direction-pagination"
     (click)="changePage(currentPage + 1)"
-    [disabled]="currentPage === totalPages"
+    [disabled]="(currentPage === totalPages) || !store.getEvents().length || store.getIsLoading()"
   >
     <i class="bi bi-arrow-right fsz-20"></i>
   </button>
