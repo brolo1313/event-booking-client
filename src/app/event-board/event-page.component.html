@@ -1,5 +1,5 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
-  <div class="sticky_block">
+  <div *ngIf="store.getEvents()" class="sticky_block">
     <div class="col text-center">
       <div ngbDropdown class="d-inline-block">
         <button
@@ -7,6 +7,7 @@
           class="btn btn-outline-primary px-3"
           id="dropdownBasic1"
           ngbDropdownToggle
+          [disabled]="!store.getEvents().length"
         >
           Sort by
         </button>
@@ -27,6 +28,7 @@
           class="btn btn-outline-primary px-3"
           id="dropdownBasic1"
           ngbDropdownToggle
+          [disabled]="!store.getEvents().length"
         >
           Limit
         </button>
