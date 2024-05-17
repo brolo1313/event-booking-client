@@ -10,6 +10,7 @@ import { ViewParticipantsModalComponent } from './view-participant-modal/view-pa
 import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
 import { IEventData, IParticipant } from './models/event.models';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
+import { convertToISODate } from '../shared/helpers/helpers';
 
 @Component({
   selector: 'event-board',
@@ -32,7 +33,7 @@ export class EventPageComponent {
   public sortOptions = SORT_OPTIONS;
   public limitOptions = LIMIT_OPTIONS;
 
-  public activeSort: { sortBy: string; sortOrder: string } =  {
+  public activeSort: { sortBy: string; sortOrder: string } = {
     sortOrder: 'asc',
     sortBy: 'title'
   };
@@ -102,10 +103,12 @@ export class EventPageComponent {
     modalRef.componentInstance.data = event;
 
     modalRef.componentInstance.passEntry.subscribe((receivedEntry: any) => {
-      const data:IParticipant = {
+      const convertedDateOfBirthday = convertToISODate(receivedEntry.dateOfBirthday).slice(0, 10);
+
+      const data: IParticipant = {
         name: receivedEntry.fullName,
         email: receivedEntry.email,
-        dateOfBirthday: receivedEntry.dateOfBirthday,
+        dateOfBirthday: new Date(convertedDateOfBirthday),
         foundUsBy: receivedEntry.foundUsBy,
       }
 
@@ -121,5 +124,5 @@ export class EventPageComponent {
     });
     modalRef.componentInstance.event = event;
   }
-  
+
 }

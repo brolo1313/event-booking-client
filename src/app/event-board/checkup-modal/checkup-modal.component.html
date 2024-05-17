@@ -52,12 +52,20 @@
 
     <div class="birthday-block d-flex flex-column mt-2">
       <label> Birthday </label>
-      <input
-        class="pe-3"
-        type="date"
-        [max]="maxBirthDate"
-        formControlName="dateOfBirthday"
-      />
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          name="dp"
+          [(ngModel)]="model"
+          ngbDatepicker
+          formControlName="dateOfBirthday"
+          #d="ngbDatepicker"
+          [minDate]="{year: 1960, month: 1, day: 1}"
+          [maxDate]="{year: 2014, month: 12, day: 31}"
+        />
+        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+      </div>
     </div>
 
     <div class="radio-option-block d-flex justify-content-between mt-3">

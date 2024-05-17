@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { NgbActiveModal, NgbTooltip, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateStruct, NgbDatepickerModule, NgbTooltip, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IEventData } from '../models/event.models';
 
 @Component({
   selector: 'app-event-checkup-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, NgFor, NgIf, NgbTooltipModule],
+  imports: [ReactiveFormsModule, FormsModule, NgFor, NgIf, NgbTooltipModule, NgbDatepickerModule],
   templateUrl: './checkup-modal.component.html',
   styleUrls: ['./checkup-modal.component.scss']
 })
@@ -26,6 +26,8 @@ export class CheckUpModalComponent {
     { label: 'Friends', value: '2' },
     { label: 'Found myself', value: '3' }
   ];
+
+  model!: NgbDateStruct;
 
   selectedOption: string = '';
   public maxBirthDate!: string;
