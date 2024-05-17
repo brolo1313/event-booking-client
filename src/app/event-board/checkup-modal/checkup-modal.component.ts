@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { NgbActiveModal, NgbTooltip, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IEventData } from '../models/event.models';
 
 @Component({
@@ -15,8 +15,8 @@ export class CheckUpModalComponent {
 
   activeModal = inject(NgbActiveModal);
   fb = inject(UntypedFormBuilder);
-  
-  @Input() data!: IEventData; 
+
+  @Input() data!: IEventData;
 
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
   @Output() getQrCode: EventEmitter<any> = new EventEmitter();
@@ -26,29 +26,40 @@ export class CheckUpModalComponent {
     { label: 'Friends', value: '2' },
     { label: 'Found myself', value: '3' }
   ];
-  
+
   selectedOption: string = '';
-  maxBirthDate!: string;
+  public maxBirthDate!: string;
+  public currentDay = new Date();
+
 
   public registrationEventForm: UntypedFormGroup = this.fb.group({
-    fullName: ['User1', Validators.required],
-    email: ['brolo1341@gmail.com', [Validators.required, Validators.email]],
-    dateOfBirthday: [new Date().toISOString().split('T')[0]],
+    fullName: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    dateOfBirthday: [''],
   });
 
+
+  get UserNameFC(): FormControl {
+    return this.registrationEventForm.get('fullName') as UntypedFormControl;
+  }
+
+  get EmailFC(): FormControl {
+    return this.registrationEventForm.get('email') as UntypedFormControl;
+  }
+
   ngOnInit() {
-    this.maxBirthDate = new Date().toISOString().split('T')[0]; 
+    this.maxBirthDate = new Date(2014, 11, 31).toISOString().split('T')[0];
   }
 
 
   public submit(registrationEventForm: UntypedFormGroup) {
     const data = registrationEventForm.getRawValue();
     this.activeModal.close('success');
-    
+
     const result = {
       ...data,
       eventId: this.data._id,
-      foundUsBy: this.selectedOption 
+      foundUsBy: this.selectedOption
     }
 
     this.passEntry.emit(result);

@@ -31,3 +31,15 @@ button.action-button:disabled {
 .radio-option-block {
   width: 80%;
 }
+
+.validation-handled i {
+  position: absolute;
+  right: 20px;
+  top: 31px;
+  color: green;
+  font-size: 20px;
+}
+
+.validation-handled input.ng-invalid.ng-touched {
+  border: 1px solid #f83a18;
+}
