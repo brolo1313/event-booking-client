@@ -5,7 +5,7 @@ import { EventService } from '../services/event.service';
 import { StoreService } from '../services/store';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
-import { CheckUpModalComponent } from './checkup-modal/checkup-modal.component';
+import { CheckUpModalComponent } from './registration-modal/registration-modal.component';
 import { ViewParticipantsModalComponent } from './view-participant-modal/view-participants-modal.component';
 import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
 import { IEventData, IParticipant } from './models/event.models';

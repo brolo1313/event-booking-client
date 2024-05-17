@@ -8,8 +8,8 @@ import { IEventData } from '../models/event.models';
   selector: 'app-event-checkup-modal',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, NgFor, NgIf, NgbTooltipModule, NgbDatepickerModule],
-  templateUrl: './checkup-modal.component.html',
-  styleUrls: ['./checkup-modal.component.scss']
+  templateUrl: './registration-modal.component.html',
+  styleUrls: ['./registration-modal.component.scss']
 })
 export class CheckUpModalComponent {
 
