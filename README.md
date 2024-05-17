@@ -18,3 +18,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## DEMO
 
 `https://event-booking-client-gamma.vercel.app/`
+
+BACKEND SOURCE
+https://github.com/brolo1313/event-booking-server
