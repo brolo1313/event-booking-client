@@ -76,6 +76,10 @@
 
             <div class="event-list--item--sheet__year ms-2">
               <strong>{{ getYear(event) }}</strong>
+              <div *ngIf="event.participants.length" class="total-regisratino">
+                <i class="bi bi-people-fill"></i>
+                {{ event.participants.length }}
+              </div>
             </div>
           </div>
 
