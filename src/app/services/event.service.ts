@@ -31,7 +31,7 @@ export class EventService {
     )
   }
 
-  public getRegisteredToDay(eventId:string){
+  public getRegisteredToDay(eventId: string) {
     return this.http.get(`${environment.apiUrl}/registered-to-day`, {
       params: {
         eventId,
@@ -53,17 +53,7 @@ export class EventService {
 
   public registerParticipantOnEvent(participantData: IParticipant, eventId: string) {
     const requestBody = { ...participantData, eventId };
-    return this.http.post(`${environment.apiUrl}/register-participant`, requestBody).subscribe(
-      (response) => {
-        this.toastService.show('', 'Registration is successful', 5000, 'toast-success', 'green');
-        this.store.setIsLoading(false);
-        this.getEvents();
-      },
-      (error) => {
-        this.toastService.show('', error?.error?.message, 5000, 'toast-error', 'red');
-        this.store.setIsLoading(false);
-      }
-    )
+    return this.http.post(`${environment.apiUrl}/register-participant`, requestBody);
   }
 
 }

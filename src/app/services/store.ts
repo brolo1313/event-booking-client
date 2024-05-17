@@ -6,6 +6,10 @@ import { IApiResponse, IEventData } from '../event-board/models/event.models';
 })
 export class StoreService {
 
+  public activeSort = signal<{ sortBy: string; sortOrder: string }>({ sortBy: 'title', sortOrder: 'asc' })
+  public currentPage = signal<number>(1);
+  public itemsPerPage = signal<number>(10);
+
   public selectEventsList = signal<IEventData[]>([]);
 
   private isLoading = signal<boolean>(false);
@@ -21,7 +25,6 @@ export class StoreService {
     return this.isLoading();
   }
 
-
   storedEvents(data: IEventData[]) {
     this.selectEventsList.set(data);
   }
@@ -30,4 +33,28 @@ export class StoreService {
     return this.selectEventsList();
   }
 
+
+  getActiveSort() {
+    return this.activeSort();
+  }
+
+  setActiveSort(sortBy: string, sortOrder: string){
+    this.activeSort.set({sortBy, sortOrder});
+  }
+
+  getCurrentPage() {
+    return this.currentPage();
+  }
+
+  setCurrentPage(pageNumber: number){
+    this.currentPage.set(pageNumber);
+  }
+
+  getItemsPerPage() {
+    return this.itemsPerPage();
+  }
+
+  setItemsPerPage(limit: number){
+    this.itemsPerPage.set(limit);
+  }
 }

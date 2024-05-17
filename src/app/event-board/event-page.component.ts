@@ -11,6 +11,7 @@ import { LIMIT_OPTIONS, SORT_OPTIONS } from './config/event.config';
 import { IEventData, IParticipant } from './models/event.models';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { convertToISODate } from '../shared/helpers/helpers';
+import { ToastService } from '../shared/services/toast.service';
 
 @Component({
   selector: 'event-board',
@@ -21,23 +22,16 @@ import { convertToISODate } from '../shared/helpers/helpers';
 })
 export class EventPageComponent {
 
-  public currentPage: number = 1;
-  public itemsPerPage: number = 10;
   public totalItems: number = 0;
   public totalPages: number = 0;
 
   public eventService = inject(EventService);
   public store = inject(StoreService);
+  private toastService = inject(ToastService);
   private modalService = inject(NgbModal);
 
   public sortOptions = SORT_OPTIONS;
   public limitOptions = LIMIT_OPTIONS;
-
-  public activeSort: { sortBy: string; sortOrder: string } = {
-    sortOrder: 'asc',
-    sortBy: 'title'
-  };
-
 
   public defaultModalOptions = {
     centered: true,
@@ -64,7 +58,7 @@ export class EventPageComponent {
 
   private fetchData(): void {
     this.store.setIsLoading(true);
-    this.eventService.getPaginatedEvents(this.currentPage, this.itemsPerPage, this.activeSort.sortBy, this.activeSort.sortOrder).subscribe(
+    this.eventService.getPaginatedEvents(this.store.getCurrentPage(), this.store.getItemsPerPage(), this.store.getActiveSort().sortBy, this.store.getActiveSort().sortOrder).subscribe(
       (response) => {
         this.store.storedEvents(response.data.items);
         this.totalItems = response.data.totalEvents;
@@ -79,18 +73,18 @@ export class EventPageComponent {
   }
 
   public onPageChange(page: number): void {
-    this.currentPage = page;
+    this.store.setCurrentPage(page);
     this.fetchData();
   }
 
   public sort(sortBy: string, sortOrder: string) {
-    this.activeSort = { sortBy, sortOrder };
+    this.store.setActiveSort(sortBy, sortOrder);
     this.fetchData();
   }
 
   public setLimit(limit: number): void {
-    this.currentPage = 1;// reset to first page, due fix bug
-    this.itemsPerPage = limit;
+    this.store.setCurrentPage(1); // reset to first page, due fix bug
+    this.store.setItemsPerPage(limit);
     this.fetchData();
   }
 
@@ -113,7 +107,17 @@ export class EventPageComponent {
       }
 
       const eventId = receivedEntry.eventId;
-      this.eventService.registerParticipantOnEvent(data, eventId)
+      this.eventService.registerParticipantOnEvent(data, eventId).subscribe(
+        (response) => {
+          this.toastService.show('', 'Registration is successful', 5000, 'toast-success', 'green');
+          this.store.setIsLoading(false);
+          this.fetchData();
+        },
+        (error) => {
+          this.toastService.show('', error?.error?.message, 5000, 'toast-error', 'red');
+          this.store.setIsLoading(false);
+        }
+      )
     })
   }
 
