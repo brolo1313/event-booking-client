@@ -46,7 +46,10 @@
       </ng-container>
 
       <ng-container *ngIf="EmailFC.invalid && EmailFC.dirty && EmailFC.value">
-        <small class="error-message text-danger">Invalid email format</small>
+        <small class="error-message text-danger"
+          >Invalid email format, small letters,
+          <strong>EX:</strong> your_email&#64;example.com</small
+        >
       </ng-container>
     </div>
 
@@ -61,10 +64,14 @@
           ngbDatepicker
           formControlName="dateOfBirthday"
           #d="ngbDatepicker"
-          [minDate]="{year: 1960, month: 1, day: 1}"
-          [maxDate]="{year: 2014, month: 12, day: 31}"
+          [minDate]="{ year: 1960, month: 1, day: 1 }"
+          [maxDate]="{ year: 2014, month: 12, day: 31 }"
         />
-        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+        <button
+          class="btn btn-outline-secondary bi bi-calendar3"
+          (click)="d.toggle()"
+          type="button"
+        ></button>
       </div>
     </div>
 
