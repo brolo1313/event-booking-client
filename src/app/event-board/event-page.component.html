@@ -2,6 +2,11 @@
   class="event-page-wrapper d-flex flex-column justify-content-center align-items-center"
 >
   <div *ngIf="store.getEvents()" class="sticky_block">
+    <div *ngIf="totalItems" class="d-flex justify-content-center align-items-center flex-column mt-2">
+      <span>{{ isInfiniteScroll ? 'Disabled': 'Enabled'}} infinite scroll</span>
+      <app-switcher size="small" name="skip_notification" [disabled]="isInfiniteScrollDataLoading || (isReachBottom && !isInfiniteScroll)" (change)="toggleDisplay($event)"></app-switcher>
+    </div>
+
     <div *ngIf="totalItems" class="d-flex justify-content-center column-gap-3">
       <ng-container *ngFor="let option of sortOptions">
         <button
@@ -14,7 +19,8 @@
             !store.getEvents().length ||
             store.getIsLoading() ||
             (store.getActiveSort().sortBy === option?.key &&
-            store.getActiveSort().sortOrder === option?.order)
+              store.getActiveSort().sortOrder === option?.order) ||
+            isInfiniteScrollDataLoading
           "
           class="sort_item"
           [title]="option?.label"
@@ -25,7 +31,7 @@
     </div>
 
     <div
-      *ngIf="totalItems"
+      *ngIf="totalItems && !isInfiniteScroll"
       class="d-flex justify-content-center column-gap-2 mt-2"
     >
       <ng-container *ngFor="let option of limitOptions">
@@ -45,7 +51,7 @@
     </div>
 
     <app-pagination
-      *ngIf="totalItems"
+      *ngIf="totalItems && !isInfiniteScroll"
       class="mt-3 mb-2 d-flex justify-content-center"
       [currentPage]="store.getCurrentPage()"
       [itemsPerPage]="store.getItemsPerPage()"
@@ -55,7 +61,11 @@
     ></app-pagination>
   </div>
 
-  <div class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-4">
+  <div
+    scrollTracker
+    (scrollingFinished)="onScrollingFinished()"
+    class="event-post-wrapper d-flex flex-wrap column-gap-3 row-gap-4 my-5"
+  >
     @for (event of store.getEvents(); track event._id; let index = $index, first
     = $first, last = $last, even = $even, odd = $odd, count = $count) {
     <div class="event_post p-3">
@@ -102,7 +112,7 @@
             class="btn_primary"
             href="#"
             target="_blank"
-            [disabled]="store.getIsLoading()"
+            [disabled]="store.getIsLoading() || isInfiniteScrollDataLoading"
           >
             register
           </button>
@@ -111,7 +121,7 @@
             class="btn_primary"
             href="#"
             target="_blank"
-            [disabled]="store.getIsLoading()"
+            [disabled]="store.getIsLoading() || isInfiniteScrollDataLoading"
           >
             view
           </button>
@@ -121,5 +131,9 @@
     } @empty {
     <span *ngIf="!store.getIsLoading()">Task list is empty</span>
     }
+  </div>
+
+  <div *ngIf="isInfiniteScrollDataLoading" class="loading-block">
+    <div class="loader"></div>
   </div>
 </div>

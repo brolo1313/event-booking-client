@@ -26,9 +26,12 @@
     >
   </div>
 
-  <div class="loading-block mb-3 mt-1" *ngIf="loadingResponse">
-    <div class="loader"></div>
-  </div>
+  <ng-container *ngIf="loadingResponse">
+    <div class="loading-block mb-3 mt-1" >
+      <div class="loader"></div>
+    </div>
+  </ng-container>
+
 
   <input
     #search

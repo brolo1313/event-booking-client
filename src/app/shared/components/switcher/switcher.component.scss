@@ -1,0 +1,125 @@
+
+.switch {
+    border: 1px solid #dfdfdf;
+    position: relative;
+    display: inline-block;
+    box-sizing: content-box;
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    box-shadow: rgb(223, 223, 223) 0 0 0 0 inset;
+    transition: 0.4s ease-out all;
+    -webkit-transition: 0.4s ease-out all;
+  }
+  
+  small {
+    border-radius: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.4s ease-out all;
+    -webkit-transition: 0.4s ease-out all;
+    background-color: white;
+  }
+  
+  .switch-large {
+    width: 66px;
+    height: 40px;
+    border-radius: 40px;
+  }
+  
+  .switch-large small {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .switch-medium {
+    width: 50px;
+    height: 30px;
+    border-radius: 30px;
+  }
+  
+  .switch-medium.switch-labeled {
+    width: 60px;
+  }
+  
+  .switch-medium small {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .switch-small {
+    width: 42px;
+    height: 20px;
+    background-color: antiquewhite;
+    border-radius: 20px;
+  }
+  
+  .switch-small small {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .switch-labeled {
+    cursor: pointer;
+  }
+  
+  .checked {
+    background-color: blue;
+  }
+  
+  .switch-large.checked small {
+    left: 26px;
+  }
+  
+  .switch-medium.checked small {
+    left: 20px;
+  }
+  
+  .switch-medium.switch-labeled.checked small {
+    left: 30px;
+  }
+  
+  .switch-small.checked small {
+    left: 25px;
+  }
+  
+  .disabled {
+    opacity: .50;
+    cursor: not-allowed;
+  }
+  
+  .switch .switch-text {
+    font-size: 13px;
+  }
+  
+  .switch .off {
+    opacity: 1;
+    position: absolute;
+    right: 10%;
+    top: 25%;
+    z-index: 0;
+    color: #A9A9A9;
+    transition: 0.4s ease-out all;
+  }
+  
+  .switch .on {
+    opacity: 0;
+    z-index: 0;
+    color: #fff;
+    position: absolute;
+    top: 25%;
+    left: 9%;
+    transition: 0.4s ease-out all;
+  }
+  
+  .switch.checked .off {
+    opacity: 0;
+  }
+  
+  .switch.checked .on {
+    opacity: 1;
+  }
+  

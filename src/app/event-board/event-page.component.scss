@@ -3,6 +3,7 @@
   margin: 0;
 }
 
+
 html {
   font-family: "Roboto", sans-serif;
   font-size: 12px;
@@ -175,5 +176,57 @@ div.action-button {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+  }
+}
+
+
+
+.loading-block{
+  position: fixed;
+  bottom: 110px;
+
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader {
+  border-radius: 50%;
+  animation: bounce 0.8s ease-in-out alternate infinite;
+  animation-delay: 0.32s;
+  position: relative;
+  height: 20px;
+  width: 20px;
+  bottom: 26px;
+  left: 20px;
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: inherit;
+    box-shadow: inherit;
+    animation: inherit;
+  }
+
+  &:before {
+    left: 20px;
+    animation-delay: 0.48s;
+  }
+
+  &:after {
+    right: 20px;
+    animation-delay: 0.16s;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    box-shadow: 0 2em 0 -.2em #F05C62;
+  }
+
+  100% {
+    box-shadow: 0 1em 0 -.2em #F05C62;
   }
 }
