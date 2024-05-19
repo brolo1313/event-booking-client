@@ -58,7 +58,7 @@ body {
   justify-content: center;
 }
 
-img {
+img:not(.event_finish_img) {
   height: 40px;
   width: 40px;
   position: absolute;
@@ -67,6 +67,10 @@ img {
   z-index: 1;
   top: 15px;
   right: 10px;
+}
+
+.event_finish_img{
+  width: 40px;
 }
 
 h5 {

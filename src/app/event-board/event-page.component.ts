@@ -70,7 +70,6 @@ export class EventPageComponent {
 
 
   public toggleDisplay(event: boolean) {
-
     //Reset to the default pagination params
     if (!event) {
       this.store.setCurrentPage(1);
@@ -89,7 +88,6 @@ export class EventPageComponent {
   }
 
   public onScrollingFinished() {
-
     if (this.isInfiniteScroll) {
       this.isInfiniteScrollDataLoading = true;
       this.eventService.getPaginatedEvents(this.store.getCurrentPage() + 1, this.store.getItemsPerPage(), this.store.getActiveSort().sortBy, this.store.getActiveSort().sortOrder).subscribe(
