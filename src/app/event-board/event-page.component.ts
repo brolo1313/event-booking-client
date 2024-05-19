@@ -93,7 +93,7 @@ export class EventPageComponent {
         behavior: 'smooth'
       });
     }
-
+    this.setIsEmptyResponseOnScroll(false);
     this.isInfiniteScroll = event;
   }
 
