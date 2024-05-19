@@ -9,14 +9,14 @@ Events board page:
 automatically loads more events).
 
 Events participants modal: 
--have ability to filter participants by: name or email (works via the frotnend).
--handled hint of current-day registration(works via the backend);
+- have ability to filter participants by: name or email (works via the frotnend).
+- handled hint of current-day registration(works via the backend);
 
 Events registration modal: 
--have ability to register user for event(works via the backend).
--added validation (on Front and Back side);
+- have ability to register user for event(works via the backend).
+- added validation (on Front and Back side);
 
-
+Responsive design
 
 
 
