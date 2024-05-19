@@ -2,12 +2,11 @@
   class="event-page-wrapper d-flex flex-column justify-content-center align-items-center"
 >
   <div *ngIf="store.getEvents()" class="sticky_block">
-    <div *ngIf="totalItems" class="display">
-      <label class="label toggle">
-        <input (click)="toggleDisplay()" type="checkbox" class="toggle_input" />
-        <div class="toggle-control"></div>
-      </label>
+    <div *ngIf="totalItems" class="d-flex justify-content-center align-items-center flex-column mt-2">
+      <span>{{ isInfiniteScroll ? 'Disabled': 'Enabled'}} infinite scroll</span>
+      <app-switcher size="small" name="skip_notification" [disabled]="isInfiniteScrollDataLoading || (isReachBottom && !isInfiniteScroll)" (change)="toggleDisplay($event)"></app-switcher>
     </div>
+
     <div *ngIf="totalItems" class="d-flex justify-content-center column-gap-3">
       <ng-container *ngFor="let option of sortOptions">
         <button

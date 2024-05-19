@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EventService } from '../services/event.service';
@@ -13,11 +13,12 @@ import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { convertToISODate } from '../shared/helpers/helpers';
 import { ToastService } from '../shared/services/toast.service';
 import { ScrollTrackerDirective } from '../shared/directives/scroll-tracker.directive';
+import { SwitcherComponent } from '../shared/components/switcher/switcher.components';
 
 @Component({
   selector: 'event-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule, LoaderComponent, ScrollTrackerDirective],
+  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule, LoaderComponent, ScrollTrackerDirective, SwitcherComponent],
   templateUrl: './event-page.component.html',
   styleUrls: ['./event-page.component.scss']
 })
@@ -36,6 +37,7 @@ export class EventPageComponent {
 
   public isInfiniteScroll = false;
   public isInfiniteScrollDataLoading = false;
+  public isReachBottom: boolean = false;
 
   public defaultModalOptions = {
     centered: true,
@@ -56,14 +58,34 @@ export class EventPageComponent {
     return (new Date(event.eventDate)).getFullYear();
   }
 
+  @HostListener("window:scroll", [])
+  onScroll(): void {
+    this.isReachBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+
+  }
+
   ngOnInit() {
     this.fetchData();
   }
 
 
-  public toggleDisplay() {
-    console.log(' this.isInfiniteScroll', this.isInfiniteScroll);
-    this.isInfiniteScroll = !this.isInfiniteScroll;
+  public toggleDisplay(event: boolean) {
+
+    //Reset to the default pagination params
+    if (!event) {
+      this.store.setCurrentPage(1);
+      this.store.setItemsPerPage(20);
+      this.store.setActiveSort('title', 'asc');
+      this.fetchData();
+
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    this.isInfiniteScroll = event;
   }
 
   public onScrollingFinished() {
