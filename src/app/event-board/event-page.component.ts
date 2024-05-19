@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EventService } from '../services/event.service';
@@ -14,6 +14,7 @@ import { convertToISODate } from '../shared/helpers/helpers';
 import { ToastService } from '../shared/services/toast.service';
 import { ScrollTrackerDirective } from '../shared/directives/scroll-tracker.directive';
 import { SwitcherComponent } from '../shared/components/switcher/switcher.components';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'event-board',
@@ -23,6 +24,8 @@ import { SwitcherComponent } from '../shared/components/switcher/switcher.compon
   styleUrls: ['./event-page.component.scss']
 })
 export class EventPageComponent {
+  @ViewChild('endElement') endElement!: ElementRef;
+
 
   public totalItems: number = 0;
   public totalPages: number = 0;
@@ -31,6 +34,7 @@ export class EventPageComponent {
   public store = inject(StoreService);
   private toastService = inject(ToastService);
   private modalService = inject(NgbModal);
+  public changeDetectorRef = inject(ChangeDetectorRef);
 
   public sortOptions = SORT_OPTIONS;
   public limitOptions = LIMIT_OPTIONS;
@@ -45,6 +49,8 @@ export class EventPageComponent {
     centered: true,
     windowClass: 'modal-dialog-centered',
   }
+
+  private ngUnsubscribe = new Subject();
 
   getIsEmptyResponseOnScroll() {
     return this.isEmptyResponseOnScroll();
@@ -71,7 +77,6 @@ export class EventPageComponent {
   @HostListener("window:scroll", [])
   onScroll(): void {
     this.isReachBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
-
   }
 
   ngOnInit() {
@@ -85,6 +90,8 @@ export class EventPageComponent {
       this.store.setCurrentPage(1);
       this.store.setItemsPerPage(20);
       this.store.setActiveSort('title', 'asc');
+      this.setIsEmptyResponseOnScroll(false);
+
       this.fetchData();
 
       window.scroll({
@@ -97,6 +104,12 @@ export class EventPageComponent {
     this.isInfiniteScroll = event;
   }
 
+  public scrollToBottom() {
+    if (this.endElement) {
+      this.endElement.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }
+
   public onScrollingFinished() {
     if (this.isInfiniteScroll && !this.getIsEmptyResponseOnScroll()) {
       this.isInfiniteScrollDataLoading = true;
@@ -106,6 +119,10 @@ export class EventPageComponent {
           if (!response.data.items.length) {
             this.setIsEmptyResponseOnScroll(true);
             this.isInfiniteScrollDataLoading = false;
+            this.changeDetectorRef.detectChanges();
+
+
+            this.scrollToBottom();
 
           } else {
             this.store.updatedEvents(response.data.items);
@@ -225,4 +242,9 @@ export class EventPageComponent {
     modalRef.componentInstance.event = event;
   }
 
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
+  }
 }
