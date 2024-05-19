@@ -80,17 +80,19 @@
         *ngFor="let option of radioOptions; let i = index"
         class="form-check"
       >
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          [id]="'flexRadioDefault' + i"
-          [value]="option.value"
-          (change)="selectedOption = option.value"
-        />
-        <label class="form-check-label" [for]="'flexRadioDefault' + i">
-          {{ option.label }}
-        </label>
+        <div class="d-flex">
+          <input
+            class="form-check-input me-3"
+            type="radio"
+            name="flexRadioDefault"
+            [id]="'flexRadioDefault' + i"
+            [value]="option.value"
+            (change)="selectedOption = option.value"
+          />
+          <label class="form-check-label" [for]="'flexRadioDefault' + i">
+            {{ option.label }}
+          </label>
+        </div>
       </ng-container>
     </div>
 

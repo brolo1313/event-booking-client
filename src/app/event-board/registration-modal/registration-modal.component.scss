@@ -30,6 +30,10 @@ button.action-button:disabled {
 
 .radio-option-block {
   width: 80%;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
 }
 
 .validation-handled i {
