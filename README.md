@@ -1,3 +1,25 @@
+About app:
+List of events was pre-populated in the database via seed script.
+You can registered yourself and check participants on per event.
+
+Events board page: 
+-have ability to sort events by: title, event date (works via the backend).
+- have posibility to choose page or limit events on page(works via the backend).
+- add infinite scroll pagination (when a user scrolls the page, it
+automatically loads more events).
+
+Events participants modal: 
+-have ability to filter participants by: name or email (works via the frotnend).
+-handled hint of current-day registration(works via the backend);
+
+Events registration modal: 
+-have ability to register user for event(works via the backend).
+-added validation (on Front and Back side);
+
+
+
+
+
 # EventClient
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
