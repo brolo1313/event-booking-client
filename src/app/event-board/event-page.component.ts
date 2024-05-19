@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { EventService } from '../services/event.service';
@@ -38,10 +38,20 @@ export class EventPageComponent {
   public isInfiniteScroll = false;
   public isInfiniteScrollDataLoading = false;
   public isReachBottom: boolean = false;
+  public isEmptyResponseOnScroll = signal<boolean>(false);
+
 
   public defaultModalOptions = {
     centered: true,
     windowClass: 'modal-dialog-centered',
+  }
+
+  getIsEmptyResponseOnScroll() {
+    return this.isEmptyResponseOnScroll();
+  }
+
+  setIsEmptyResponseOnScroll(data: boolean) {
+    this.isEmptyResponseOnScroll.set(data);
   }
 
   getDay(event: IEventData) {
@@ -88,22 +98,28 @@ export class EventPageComponent {
   }
 
   public onScrollingFinished() {
-    if (this.isInfiniteScroll) {
+    if (this.isInfiniteScroll && !this.getIsEmptyResponseOnScroll()) {
       this.isInfiniteScrollDataLoading = true;
       this.eventService.getPaginatedEvents(this.store.getCurrentPage() + 1, this.store.getItemsPerPage(), this.store.getActiveSort().sortBy, this.store.getActiveSort().sortOrder).subscribe(
         (response) => {
 
-          this.store.updatedEvents(response.data.items);
-          this.totalItems = response.data.totalEvents;
-          this.totalPages = response.data.totalPages;
+          if (!response.data.items.length) {
+            this.setIsEmptyResponseOnScroll(true);
+            this.isInfiniteScrollDataLoading = false;
 
+          } else {
+            this.store.updatedEvents(response.data.items);
+            this.totalItems = response.data.totalEvents;
+            this.totalPages = response.data.totalPages;
 
-          this.store.setCurrentPage(this.store.getCurrentPage() + 1);
-          this.isInfiniteScrollDataLoading = false;
-
+            this.isInfiniteScrollDataLoading = false;
+            this.setIsEmptyResponseOnScroll(false);
+            this.store.setCurrentPage(this.store.getCurrentPage() + 1);
+          }
         },
         (error) => {
           this.isInfiniteScrollDataLoading = false;
+          this.setIsEmptyResponseOnScroll(false);
         }
       )
     }
