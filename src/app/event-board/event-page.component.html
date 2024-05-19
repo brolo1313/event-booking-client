@@ -13,7 +13,9 @@
         size="small"
         name="skip_notification"
         [disabled]="
-          isInfiniteScrollDataLoading || (isReachBottom && !isInfiniteScroll)
+          (isInfiniteScrollDataLoading ||
+          store.getIsLoading()) ||
+          (isReachBottom && !isInfiniteScroll)
         "
         (change)="toggleDisplay($event)"
       ></app-switcher>
