@@ -8,7 +8,7 @@ export class StoreService {
 
   public activeSort = signal<{ sortBy: string; sortOrder: string }>({ sortBy: 'title', sortOrder: 'asc' })
   public currentPage = signal<number>(1);
-  public itemsPerPage = signal<number>(10);
+  public itemsPerPage = signal<number>(20);
 
   public selectEventsList = signal<IEventData[]>([]);
 
@@ -27,6 +27,12 @@ export class StoreService {
 
   storedEvents(data: IEventData[]) {
     this.selectEventsList.set(data);
+  }
+
+  updatedEvents(data: IEventData[]){
+    this.selectEventsList.update((oldState) => {
+      return [...oldState, ...data];
+  });
   }
 
   getEvents() {

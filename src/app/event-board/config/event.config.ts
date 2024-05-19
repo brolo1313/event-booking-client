@@ -6,7 +6,7 @@ export const SORT_OPTIONS =[
 ];
 
 export const LIMIT_OPTIONS = [
-    { key: 10, label: '10' },
     { key: 20, label: '20' },
     { key: 50, label: '50' },
+    { key: 100, label: '100' },
 ];

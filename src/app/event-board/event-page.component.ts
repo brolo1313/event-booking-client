@@ -12,11 +12,12 @@ import { IEventData, IParticipant } from './models/event.models';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { convertToISODate } from '../shared/helpers/helpers';
 import { ToastService } from '../shared/services/toast.service';
+import { ScrollTrackerDirective } from '../shared/directives/scroll-tracker.directive';
 
 @Component({
   selector: 'event-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule, LoaderComponent],
+  imports: [CommonModule, RouterModule, NgIf, PaginationComponent, NgbModule, LoaderComponent, ScrollTrackerDirective],
   templateUrl: './event-page.component.html',
   styleUrls: ['./event-page.component.scss']
 })
@@ -32,6 +33,9 @@ export class EventPageComponent {
 
   public sortOptions = SORT_OPTIONS;
   public limitOptions = LIMIT_OPTIONS;
+
+  public isInfiniteScroll = false;
+  public isInfiniteScrollDataLoading = false;
 
   public defaultModalOptions = {
     centered: true,
@@ -56,6 +60,36 @@ export class EventPageComponent {
     this.fetchData();
   }
 
+
+  public toggleDisplay() {
+    console.log(' this.isInfiniteScroll', this.isInfiniteScroll);
+    this.isInfiniteScroll = !this.isInfiniteScroll;
+  }
+
+  public onScrollingFinished() {
+
+    if (this.isInfiniteScroll) {
+      this.isInfiniteScrollDataLoading = true;
+      this.eventService.getPaginatedEvents(this.store.getCurrentPage() + 1, this.store.getItemsPerPage(), this.store.getActiveSort().sortBy, this.store.getActiveSort().sortOrder).subscribe(
+        (response) => {
+
+          this.store.updatedEvents(response.data.items);
+          this.totalItems = response.data.totalEvents;
+          this.totalPages = response.data.totalPages;
+
+
+          this.store.setCurrentPage(this.store.getCurrentPage() + 1);
+          this.isInfiniteScrollDataLoading = false;
+
+        },
+        (error) => {
+          this.isInfiniteScrollDataLoading = false;
+        }
+      )
+    }
+
+  }
+
   private fetchData(): void {
     this.store.setIsLoading(true);
     this.eventService.getPaginatedEvents(this.store.getCurrentPage(), this.store.getItemsPerPage(), this.store.getActiveSort().sortBy, this.store.getActiveSort().sortOrder).subscribe(
@@ -78,8 +112,34 @@ export class EventPageComponent {
   }
 
   public sort(sortBy: string, sortOrder: string) {
-    this.store.setActiveSort(sortBy, sortOrder);
-    this.fetchData();
+
+    if (this.isInfiniteScroll) {
+      const orderMultiplier = sortOrder === 'asc' ? 1 : -1;
+      if (sortBy === 'title') {
+
+        this.store.getEvents().sort((a, b) => {
+          const getNumber = (title: string | any) => parseInt(title.match(/\d+/)?.[0], 10) || 0;
+          const numA = getNumber(a.title);
+          const numB = getNumber(b.title);
+
+          this.store.setActiveSort(sortBy, sortOrder);
+          return orderMultiplier * (numA - numB);
+        });
+      } else if (sortBy === 'eventDate') {
+        this.store.setActiveSort(sortBy, sortOrder);
+        this.store.getEvents().sort((a, b) => {
+          if (a[sortBy] < b[sortBy]) return -1 * orderMultiplier;
+          if (a[sortBy] > b[sortBy]) return 1 * orderMultiplier;
+          return 0;
+        });
+      }
+
+    } else {
+      //default sorting without infinite scroll
+      this.store.setActiveSort(sortBy, sortOrder);
+      this.fetchData();
+    }
+
   }
 
   public setLimit(limit: number): void {
