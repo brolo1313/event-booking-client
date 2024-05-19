@@ -151,7 +151,7 @@
 
   <div
     class="d-flex justify-content-center flex-column align-items-center"
-    *ngIf="this.getIsEmptyResponseOnScroll()"
+    *ngIf="this.getIsEmptyResponseOnScroll() && isInfiniteScroll"
   >
     <div>
       <img class="event_finish_img" src="../../assets/image/finish.png" alt="Finish" />
