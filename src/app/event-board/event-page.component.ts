@@ -44,6 +44,7 @@ export class EventPageComponent {
   public isReachBottom: boolean = false;
   public isEmptyResponseOnScroll = signal<boolean>(false);
 
+  public innerWidth: number = 0;
 
   public defaultModalOptions = {
     centered: true,
@@ -79,8 +80,14 @@ export class EventPageComponent {
     this.isReachBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    this.innerWidth = window.innerWidth;
+  }
+
   ngOnInit() {
     this.fetchData();
+    this.innerWidth = window.innerWidth;
   }
 
 

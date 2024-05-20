@@ -188,7 +188,7 @@ div.action-button {
 
 .loading-block {
   position: fixed;
-  bottom: 110px;
+  bottom: 130px;
 
   left: 50%;
   transform: translate(-50%, -50%);
@@ -201,8 +201,6 @@ div.action-button {
   position: relative;
   height: 20px;
   width: 20px;
-  bottom: 26px;
-  left: 20px;
 
   &:after,
   &:before {

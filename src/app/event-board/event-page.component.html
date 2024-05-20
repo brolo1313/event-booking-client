@@ -113,8 +113,8 @@
               event.description.length > 60 ? event.description : null
             }}"
           >
-            <ng-container *ngIf="event.description.length > 60; else noTooltip">
-              {{ event.description.substring(0, 60) + "..." }}
+            <ng-container *ngIf="event.description.length >( innerWidth < 400 ? 60 : 90); else noTooltip">
+              {{ event.description.substring(0, innerWidth < 400 ? 60 : 90) + "..." }}
             </ng-container>
             <ng-template #noTooltip>{{ event.description }}</ng-template>
           </p>
