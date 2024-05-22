@@ -7,14 +7,19 @@ import { Directive, Output, EventEmitter, HostListener } from '@angular/core';
 export class ScrollTrackerDirective {
   @Output() scrollingFinished = new EventEmitter<void>();
 
+  bottomIndent: number = 300;
   emitted = false;
 
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.emitted) {
+
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - this.bottomIndent;
+
+    if (scrollPosition >= threshold && !this.emitted) {
       this.emitted = true;
       this.scrollingFinished.emit();
-    } else if ((window.innerHeight + window.scrollY) < document.body.offsetHeight) {
+    } else if (scrollPosition < threshold) {
       this.emitted = false;
     }
   }
