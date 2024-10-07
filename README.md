@@ -22,7 +22,8 @@ You can registered yourself and check participants on per event.
 
 
 **DEMO**
-event-booking-client-gamma.vercel.app
+https://event-booking-client-gamma.vercel.app
+
 
 **Events board page**: 
 - have ability to sort events by: title, event date (works via the backend) :white_check_mark:.
